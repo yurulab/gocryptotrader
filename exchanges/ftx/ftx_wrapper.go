@@ -506,10 +506,10 @@ func (f *FTX) SubmitOrder(s *order.Submit) (order.SubmitResponse, error) {
 	tempResp, err := f.Order(formattedPair.String(),
 		s.Side.String(),
 		s.Type.String(),
-		"",
-		"",
-		"",
 		s.ClientOrderID,
+		false,
+		false,
+		false,
 		s.Price,
 		s.Amount)
 	if err != nil {

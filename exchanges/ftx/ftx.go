@@ -410,20 +410,20 @@ func (f *FTX) GetTriggerOrderHistory(marketName string, startTime, endTime time.
 }
 
 // Order places an order
-func (f *FTX) Order(marketName, side, orderType, reduceOnly, ioc, postOnly, clientID string, price, size float64) (OrderData, error) {
+func (f *FTX) Order(marketName, side, orderType, clientID string, reduceOnly, ioc, postOnly bool, price, size float64) (OrderData, error) {
 	req := make(map[string]interface{})
 	req["market"] = marketName
 	req["side"] = side
 	req["price"] = price
 	req["type"] = orderType
 	req["size"] = size
-	if reduceOnly != "" {
+	if reduceOnly == true {
 		req["reduceOnly"] = reduceOnly
 	}
-	if ioc != "" {
+	if ioc == true {
 		req["ioc"] = ioc
 	}
-	if postOnly != "" {
+	if postOnly == true {
 		req["postOnly"] = postOnly
 	}
 	if clientID != "" {
@@ -436,16 +436,16 @@ func (f *FTX) Order(marketName, side, orderType, reduceOnly, ioc, postOnly, clie
 }
 
 // TriggerOrder places an order
-func (f *FTX) TriggerOrder(marketName, side, orderType, reduceOnly, retryUntilFilled string, size, triggerPrice, orderPrice, trailValue float64) (TriggerOrderData, error) {
+func (f *FTX) TriggerOrder(marketName, side, orderType string, reduceOnly, retryUntilFilled bool, size, triggerPrice, orderPrice, trailValue float64) (TriggerOrderData, error) {
 	req := make(map[string]interface{})
 	req["market"] = marketName
 	req["side"] = side
 	req["type"] = orderType
 	req["size"] = size
-	if reduceOnly != "" {
+	if reduceOnly == true {
 		req["reduceOnly"] = reduceOnly
 	}
-	if retryUntilFilled != "" {
+	if retryUntilFilled == true {
 		req["retryUntilFilled"] = retryUntilFilled
 	}
 	if orderType == order.Stop.Lower() || orderType == "" {
@@ -536,7 +536,7 @@ func (f *FTX) DeleteOrder(orderID string) (string, error) {
 	resp := struct {
 		Data string `json:"result"`
 	}{}
-	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, deleteOrder+orderID, nil, &resp)
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodDelete, deleteOrder+orderID, nil, &resp)
 }
 
 // DeleteOrderByClientID deletes an order
@@ -544,7 +544,7 @@ func (f *FTX) DeleteOrderByClientID(clientID string) (string, error) {
 	resp := struct {
 		Data string `json:"result"`
 	}{}
-	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, deleteOrderByClientID+clientID, nil, &resp)
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodDelete, deleteOrderByClientID+clientID, nil, &resp)
 }
 
 // DeleteTriggerOrder deletes an order
