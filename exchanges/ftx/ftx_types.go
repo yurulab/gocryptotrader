@@ -500,6 +500,24 @@ type OptionFillsData struct {
 	Time      string     `json:"time"`
 }
 
+// OptionOpenInterest stores option's open interest data
+type OptionOpenInterest struct {
+	NumContracts float64 `json:"numContracts"`
+	Time         string  `json:"time"`
+}
+
+// OptionVolume stores option's contract volume data
+type OptionVolume struct {
+	NumContracts float64 `json:"numContracts"`
+	endTime      string  `json:"endTime"`
+	startTime    string  `json:"startTime"`
+}
+
+// OpenInterest stores option's open interest data
+type OpenInterest struct {
+	OpenInterest float64 `json:"openInterest"`
+}
+
 // AuthenticationData stores authentication variables required
 type AuthenticationData struct {
 	Key  string `json:"key"`

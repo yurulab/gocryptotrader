@@ -37,6 +37,7 @@ const (
 	getFuture            = "/futures/"
 	getFutureStats       = "/futures/%s/stats"
 	getFundingRates      = "/funding_rates"
+	getIndexes           = "/indexes/%s/candles?"
 	getIndexWeights      = "/indexes/%s/weights"
 	getAllWalletBalances = "/wallet/all_balances"
 
@@ -86,6 +87,9 @@ const (
 	getOptionsPositions      = "/options/positions"
 	getPublicOptionsTrades   = "/options/trades"
 	getOptionsFills          = "/options/fills"
+	getHistricalOpenInterest = "/options/historical_open_interest/BTC"
+	getHistricalVolumes      = "/options/historical_volumes/BTC"
+	getOpenInterest          = "/options/open_interest/BTC"
 	requestOTCQuote          = "/otc/quotes"
 	getOTCQuoteStatus        = "/otc/quotes/"
 	acceptOTCQuote           = "/otc/quotes/%s/accept"
@@ -180,6 +184,26 @@ func (f *FTX) GetHistoricalData(marketName, timeInterval, limit string, startTim
 		params.Set("end_time", strconv.FormatInt(endTime.Unix(), 10))
 	}
 	return resp.Data, f.SendHTTPRequest(fmt.Sprintf(ftxAPIURL+getHistoricalData, marketName)+params.Encode(), &resp)
+}
+
+// GetIndexHistoricalData gets historical OHLCV data for a given index
+func (f *FTX) GetIndexHistoricalData(indexName, timeInterval, limit string, startTime, endTime time.Time) ([]OHLCVData, error) {
+	resp := struct {
+		Data []OHLCVData `json:"result"`
+	}{}
+	params := url.Values{}
+	params.Set("resolution", timeInterval)
+	if limit != "" {
+		params.Set("limit", limit)
+	}
+	if !startTime.IsZero() && !endTime.IsZero() {
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+		params.Set("start_time", strconv.FormatInt(startTime.Unix(), 10))
+		params.Set("end_time", strconv.FormatInt(endTime.Unix(), 10))
+	}
+	return resp.Data, f.SendHTTPRequest(fmt.Sprintf(ftxAPIURL+getIndexes, indexName)+params.Encode(), &resp)
 }
 
 // GetFutures gets data on futures
@@ -797,6 +821,52 @@ func (f *FTX) GetOptionsFills(startTime, endTime time.Time, limit string) ([]Opt
 		req["limit"] = limit
 	}
 	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getOptionsFills, req, &resp)
+}
+
+// GetHistoricalOpenInterest gets historical OI data for options
+func (f *FTX) GetHistoricalOpenInterest(startTime, endTime time.Time, limit string) ([]OptionOpenInterest, error) {
+	resp := struct {
+		Data []OptionOpenInterest `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		req["start_time"] = strconv.FormatInt(startTime.Unix(), 10)
+		req["end_time"] = strconv.FormatInt(endTime.Unix(), 10)
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if limit != "" {
+		req["limit"] = limit
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getHistricalOpenInterest, req, &resp)
+}
+
+// GetHistoricalVolume gets historical contract volume for options
+func (f *FTX) GetHistoricalVolume(startTime, endTime time.Time, limit string) ([]OptionVolume, error) {
+	resp := struct {
+		Data []OptionVolume `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		req["start_time"] = strconv.FormatInt(startTime.Unix(), 10)
+		req["end_time"] = strconv.FormatInt(endTime.Unix(), 10)
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if limit != "" {
+		req["limit"] = limit
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getHistricalVolumes, req, &resp)
+}
+
+// GetOpenInterest gets open interest for options
+func (f *FTX) GetOpenInterest() (OpenInterest, error) {
+	resp := struct {
+		Data OpenInterest `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getOpenInterest, "", &resp)
 }
 
 // SendAuthHTTPRequest sends an authenticated request
