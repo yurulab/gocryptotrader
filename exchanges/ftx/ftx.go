@@ -230,13 +230,13 @@ func (f *FTX) GetFutureStats(futureName string) (FutureStatsData, error) {
 	return resp.Data, f.SendHTTPRequest(fmt.Sprintf(ftxAPIURL+getFutureStats, futureName), &resp)
 }
 
-// GetFundingRates gets data on funding rates
-func (f *FTX) GetFundingRates() ([]FundingRatesData, error) {
-	resp := struct {
-		Data []FundingRatesData `json:"result"`
-	}{}
-	return resp.Data, f.SendHTTPRequest(ftxAPIURL+getFundingRates, &resp)
-}
+// // GetFundingRates gets data on funding rates
+// func (f *FTX) GetFundingRates() ([]FundingRatesData, error) {
+// 	resp := struct {
+// 		Data []FundingRatesData `json:"result"`
+// 	}{}
+// 	return resp.Data, f.SendHTTPRequest(ftxAPIURL+getFundingRates, &resp)
+// }
 
 // GetIndexWeights gets index weights
 func (f *FTX) GetIndexWeights(index string) (IndexWeights, error) {
@@ -867,6 +867,27 @@ func (f *FTX) GetOpenInterest() (OpenInterest, error) {
 		Data OpenInterest `json:"result"`
 	}{}
 	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getOpenInterest, "", &resp)
+}
+
+// GetFundingRates gets data on funding rates
+func (f *FTX) GetFundingRates(startTime, endTime time.Time, marketName string) ([]FundingRatesData, error) {
+	resp := struct {
+		Data []FundingRatesData `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		start, _ := strconv.Atoi(strconv.FormatInt(startTime.Unix(), 10))
+		end, _ := strconv.Atoi(strconv.FormatInt(endTime.Unix(), 10))
+		req["start_time"] = start
+		req["end_time"] = end
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if marketName != "" {
+		req["future"] = marketName
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getFundingRates, req, &resp)
 }
 
 // SendAuthHTTPRequest sends an authenticated request
