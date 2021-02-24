@@ -22,6 +22,7 @@ import (
 // FTX is the overarching type across this package
 type FTX struct {
 	exchange.Base
+	SubAcount string
 }
 
 const (
@@ -913,6 +914,10 @@ func (f *FTX) SendAuthHTTPRequest(method, path string, data, result interface{})
 	headers["FTX-SIGN"] = crypto.HexEncodeToString(hmac)
 	headers["FTX-TS"] = ts
 	headers["Content-Type"] = "application/json"
+	// サブアカウントのとき
+	if f.SubAcount != "" {
+		headers["FTX-SUBACCOUNT"] = f.SubAcount
+	}
 	return f.SendPayload(context.Background(), &request.Item{
 		Method:        method,
 		Path:          ftxAPIURL + path,
