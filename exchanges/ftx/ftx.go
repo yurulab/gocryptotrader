@@ -43,6 +43,8 @@ const (
 	getAllWalletBalances = "/wallet/all_balances"
 
 	// Authenticated endpoints
+	getSubaccounts           = "/subaccounts"
+	getSubaccountBalances    = "/subaccounts/%s/balances"
 	getAccountInfo           = "/account"
 	getPositions             = "/positions"
 	setLeverage              = "/account/leverage"
@@ -255,6 +257,22 @@ func (f *FTX) SendHTTPRequest(path string, result interface{}) error {
 		HTTPDebugging: f.HTTPDebugging,
 		HTTPRecording: f.HTTPRecording,
 	})
+}
+
+// GetSubaccount gets subaccount info
+func (f *FTX) GetSubaccount() ([]SubAccountData, error) {
+	resp := struct {
+		Data []SubAccountData `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getSubaccounts, nil, &resp)
+}
+
+// GetSubaccountBalance gets subaccount balances
+func (f *FTX) GetSubaccountBalance(subaccountName string) ([]SubAccountBalanceData, error) {
+	resp := struct {
+		Data []SubAccountBalanceData `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, fmt.Sprintf(getSubaccountBalances, subaccountName), nil, &resp)
 }
 
 // GetAccountInfo gets account info

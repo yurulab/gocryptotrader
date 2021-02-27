@@ -142,6 +142,23 @@ type PositionData struct {
 	UnrealisedPnL                float64 `json:"unrealisedPnL"`
 }
 
+// SubAccountData stores subaccount data
+type SubAccountData struct {
+	Nickname    string `json:"nickname"`
+	Deletable   bool   `json:"deletable"`
+	Editable    bool   `json:"editable"`
+	Competition bool   `json:"competition"`
+}
+
+// SubAccountBalanceData stores subaccount balance data
+type SubAccountBalanceData struct {
+	Coin                   string  `json:"coin"`
+	Free                   float64 `json:"free"`
+	Total                  float64 `json:"total"`
+	SpotBorrow             float64 `json:"spotBorrow"`
+	AvailableWithoutBorrow float64 `json:"availableWithoutBorrow"`
+}
+
 // AccountInfoData stores account data
 type AccountInfoData struct {
 	BackstopProvider             bool           `json:"backstopProvider"`
