@@ -6,14 +6,14 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/core"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/sharedtestvalues"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/core"
+	"github.com/yurulab/gocryptotrader/currency"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/exchanges/sharedtestvalues"
+	"github.com/yurulab/gocryptotrader/exchanges/stream"
+	"github.com/yurulab/gocryptotrader/portfolio/withdraw"
 )
 
 // Please enter sandbox API keys & assigned roles for better testing procedures

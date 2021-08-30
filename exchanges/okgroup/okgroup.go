@@ -14,11 +14,11 @@ import (
 	"time"
 
 	"github.com/google/go-querystring/query"
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/common/crypto"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/request"
+	"github.com/yurulab/gocryptotrader/log"
 )
 
 const (

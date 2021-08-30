@@ -9,9 +9,9 @@ import (
 	"time"
 
 	objects "github.com/d5/tengo/v2"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/gctscript/modules/ta/indicators"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/common/file"
+	"github.com/yurulab/gocryptotrader/gctscript/modules/ta/indicators"
+	"github.com/yurulab/gocryptotrader/log"
 )
 
 var commonModule = map[string]objects.Object{

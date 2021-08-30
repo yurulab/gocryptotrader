@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
+	"github.com/yurulab/gocryptotrader/exchanges/request"
 )
 
 func TestLinearBackoff(t *testing.T) {

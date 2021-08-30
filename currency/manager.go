@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/common/convert"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
 )
 
 // GetAssetTypes returns a list of stored asset types

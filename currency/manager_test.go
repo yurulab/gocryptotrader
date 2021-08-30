@@ -3,7 +3,7 @@ package currency
 import (
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
 )
 
 var p PairsManager

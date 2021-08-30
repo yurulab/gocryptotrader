@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/common/convert"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/log"
 )
 
 var (
