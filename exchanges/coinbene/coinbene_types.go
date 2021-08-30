@@ -3,7 +3,7 @@ package coinbene
 import (
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
 )
 
 // TickerData stores ticker data

@@ -3,8 +3,8 @@ package bitmex
 import (
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
 )
 
 // RequestError allows for a general error capture from requests

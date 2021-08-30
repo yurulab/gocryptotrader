@@ -1,6 +1,6 @@
 package exmo
 
-import "github.com/thrasher-corp/gocryptotrader/currency"
+import "github.com/yurulab/gocryptotrader/currency"
 
 // Trades holds trade data
 type Trades struct {

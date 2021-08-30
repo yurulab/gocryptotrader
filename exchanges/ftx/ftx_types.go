@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
 )
 
 // MarketData stores market data

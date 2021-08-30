@@ -7,16 +7,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/protocol"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/log"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/banking"
+	"github.com/yurulab/gocryptotrader/common/convert"
+	"github.com/yurulab/gocryptotrader/config"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/kline"
+	"github.com/yurulab/gocryptotrader/exchanges/protocol"
+	"github.com/yurulab/gocryptotrader/exchanges/request"
+	"github.com/yurulab/gocryptotrader/exchanges/stream"
+	"github.com/yurulab/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/portfolio/banking"
 )
 
 const (

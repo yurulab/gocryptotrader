@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/engine"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/engine"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
 )
 
 // change these if you wish to test another exchange and/or currency pair

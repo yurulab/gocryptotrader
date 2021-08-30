@@ -3,7 +3,7 @@ package communications
 import (
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/config"
+	"github.com/yurulab/gocryptotrader/config"
 )
 
 func TestNewComm(t *testing.T) {

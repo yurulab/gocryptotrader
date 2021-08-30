@@ -4,14 +4,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/core"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/kline"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/core"
+	"github.com/yurulab/gocryptotrader/currency"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/kline"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/portfolio/withdraw"
 )
 
 // Please supply your own keys here for due diligence testing

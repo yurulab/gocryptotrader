@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/thrasher-corp/gocryptotrader/core"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/portfolio"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/banking"
+	"github.com/yurulab/gocryptotrader/core"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/portfolio"
+	"github.com/yurulab/gocryptotrader/portfolio/banking"
 )
 
 const (

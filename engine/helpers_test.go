@@ -14,15 +14,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/file"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/account"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stats"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/ticker"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/common/file"
+	"github.com/yurulab/gocryptotrader/config"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/exchanges/account"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/orderbook"
+	"github.com/yurulab/gocryptotrader/exchanges/stats"
+	"github.com/yurulab/gocryptotrader/exchanges/ticker"
 )
 
 var (

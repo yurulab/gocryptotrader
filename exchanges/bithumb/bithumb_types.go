@@ -3,7 +3,7 @@ package bithumb
 import (
 	"encoding/json"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/currency"
 )
 
 // Ticker holds ticker data

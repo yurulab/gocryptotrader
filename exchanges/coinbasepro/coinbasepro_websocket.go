@@ -9,17 +9,17 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/order"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/orderbook"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/stream/buffer"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/ticker"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/common/convert"
+	"github.com/yurulab/gocryptotrader/common/crypto"
+	"github.com/yurulab/gocryptotrader/currency"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/exchanges/asset"
+	"github.com/yurulab/gocryptotrader/exchanges/order"
+	"github.com/yurulab/gocryptotrader/exchanges/orderbook"
+	"github.com/yurulab/gocryptotrader/exchanges/stream"
+	"github.com/yurulab/gocryptotrader/exchanges/stream/buffer"
+	"github.com/yurulab/gocryptotrader/exchanges/ticker"
 )
 
 const (

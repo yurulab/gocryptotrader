@@ -11,13 +11,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/database"
-	"github.com/thrasher-corp/gocryptotrader/database/drivers"
-	"github.com/thrasher-corp/gocryptotrader/database/repository"
-	"github.com/thrasher-corp/gocryptotrader/database/testhelpers"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/banking"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/database"
+	"github.com/yurulab/gocryptotrader/database/drivers"
+	"github.com/yurulab/gocryptotrader/database/repository"
+	"github.com/yurulab/gocryptotrader/database/testhelpers"
+	"github.com/yurulab/gocryptotrader/portfolio/banking"
+	"github.com/yurulab/gocryptotrader/portfolio/withdraw"
 	"github.com/thrasher-corp/goose"
 )
 

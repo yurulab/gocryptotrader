@@ -11,17 +11,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/config"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	"github.com/thrasher-corp/gocryptotrader/currency/coinmarketcap"
-	"github.com/thrasher-corp/gocryptotrader/dispatch"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	gctscript "github.com/thrasher-corp/gocryptotrader/gctscript/vm"
-	gctlog "github.com/thrasher-corp/gocryptotrader/log"
-	"github.com/thrasher-corp/gocryptotrader/portfolio"
-	"github.com/thrasher-corp/gocryptotrader/portfolio/withdraw"
-	"github.com/thrasher-corp/gocryptotrader/utils"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/config"
+	"github.com/yurulab/gocryptotrader/currency"
+	"github.com/yurulab/gocryptotrader/currency/coinmarketcap"
+	"github.com/yurulab/gocryptotrader/dispatch"
+	"github.com/yurulab/gocryptotrader/exchanges/request"
+	gctscript "github.com/yurulab/gocryptotrader/gctscript/vm"
+	gctlog "github.com/yurulab/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/portfolio"
+	"github.com/yurulab/gocryptotrader/portfolio/withdraw"
+	"github.com/yurulab/gocryptotrader/utils"
 )
 
 // Engine contains configuration, portfolio, exchange & ticker data and is the

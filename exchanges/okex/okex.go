@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/okgroup"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/exchanges/okgroup"
 )
 
 const (

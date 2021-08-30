@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gofrs/uuid"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/log"
 )
 
 func init() {

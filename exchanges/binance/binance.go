@@ -12,13 +12,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thrasher-corp/gocryptotrader/common"
-	"github.com/thrasher-corp/gocryptotrader/common/convert"
-	"github.com/thrasher-corp/gocryptotrader/common/crypto"
-	"github.com/thrasher-corp/gocryptotrader/currency"
-	exchange "github.com/thrasher-corp/gocryptotrader/exchanges"
-	"github.com/thrasher-corp/gocryptotrader/exchanges/request"
-	"github.com/thrasher-corp/gocryptotrader/log"
+	"github.com/yurulab/gocryptotrader/common"
+	"github.com/yurulab/gocryptotrader/common/convert"
+	"github.com/yurulab/gocryptotrader/common/crypto"
+	"github.com/yurulab/gocryptotrader/currency"
+	exchange "github.com/yurulab/gocryptotrader/exchanges"
+	"github.com/yurulab/gocryptotrader/exchanges/request"
+	"github.com/yurulab/gocryptotrader/log"
 )
 
 const (
