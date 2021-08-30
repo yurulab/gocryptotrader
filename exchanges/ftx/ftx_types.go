@@ -142,6 +142,32 @@ type PositionData struct {
 	UnrealisedPnL                float64 `json:"unrealisedPnL"`
 }
 
+// SubAccountData stores subaccount data
+type SubAccountData struct {
+	Nickname    string `json:"nickname"`
+	Deletable   bool   `json:"deletable"`
+	Editable    bool   `json:"editable"`
+	Competition bool   `json:"competition"`
+}
+
+// SubAccountBalanceData stores subaccount balance data
+type SubAccountBalanceData struct {
+	Coin                   string  `json:"coin"`
+	Free                   float64 `json:"free"`
+	Total                  float64 `json:"total"`
+	SpotBorrow             float64 `json:"spotBorrow"`
+	AvailableWithoutBorrow float64 `json:"availableWithoutBorrow"`
+}
+
+// TransferedBalanceData stores transfered subaccount balance data
+type TransferedBalanceData struct {
+	Coin   string    `json:"coin"`
+	Size   float64   `json:"size"`
+	Time   time.Time `json:"time"`
+	Notes  string    `json:"notes"`
+	Status string    `json:"status"`
+}
+
 // AccountInfoData stores account data
 type AccountInfoData struct {
 	BackstopProvider             bool           `json:"backstopProvider"`
@@ -498,6 +524,24 @@ type OptionFillsData struct {
 	Side      string     `json:"side"`
 	Size      float64    `json:"size"`
 	Time      string     `json:"time"`
+}
+
+// OptionOpenInterest stores option's open interest data
+type OptionOpenInterest struct {
+	NumContracts float64 `json:"numContracts"`
+	Time         string  `json:"time"`
+}
+
+// OptionVolume stores option's contract volume data
+type OptionVolume struct {
+	NumContracts float64 `json:"numContracts"`
+	endTime      string  `json:"endTime"`
+	startTime    string  `json:"startTime"`
+}
+
+// OpenInterest stores option's open interest data
+type OpenInterest struct {
+	OpenInterest float64 `json:"openInterest"`
 }
 
 // AuthenticationData stores authentication variables required
