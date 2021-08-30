@@ -22,6 +22,7 @@ import (
 // FTX is the overarching type across this package
 type FTX struct {
 	exchange.Base
+	SubAccount string
 }
 
 const (
@@ -37,58 +38,65 @@ const (
 	getFuture            = "/futures/"
 	getFutureStats       = "/futures/%s/stats"
 	getFundingRates      = "/funding_rates"
+	getIndexes           = "/indexes/%s/candles?"
 	getIndexWeights      = "/indexes/%s/weights"
 	getAllWalletBalances = "/wallet/all_balances"
 
 	// Authenticated endpoints
-	getAccountInfo           = "/account"
-	getPositions             = "/positions"
-	setLeverage              = "/account/leverage"
-	getCoins                 = "/wallet/coins"
-	getBalances              = "/wallet/balances"
-	getDepositAddress        = "/wallet/deposit_address/"
-	getDepositHistory        = "/wallet/deposits"
-	getWithdrawalHistory     = "/wallet/withdrawals"
-	withdrawRequest          = "/wallet/withdrawals"
-	getOpenOrders            = "/orders?"
-	getOrderHistory          = "/orders/history?"
-	getOpenTriggerOrders     = "/conditional_orders?"
-	getTriggerOrderTriggers  = "/conditional_orders/%s/triggers"
-	getTriggerOrderHistory   = "/conditional_orders/history?"
-	placeOrder               = "/orders"
-	placeTriggerOrder        = "/conditional_orders"
-	modifyOrder              = "/orders/%s/modify"
-	modifyOrderByClientID    = "/orders/by_client_id/%s/modify"
-	modifyTriggerOrder       = "/conditional_orders/%s/modify"
-	getOrderStatus           = "/orders/"
-	getOrderStatusByClientID = "/orders/by_client_id/"
-	deleteOrder              = "/orders/"
-	deleteOrderByClientID    = "/orders/by_client_id/"
-	cancelTriggerOrder       = "/conditional_orders/"
-	getFills                 = "/fills?"
-	getFundingPayments       = "/funding_payments?"
-	getLeveragedTokens       = "/lt/tokens"
-	getTokenInfo             = "/lt/"
-	getLTBalances            = "/lt/balances"
-	getLTCreations           = "/lt/creations"
-	requestLTCreation        = "/lt/%s/create"
-	getLTRedemptions         = "/lt/redemptions"
-	requestLTRedemption      = "/lt/%s/redeem"
-	getListQuotes            = "/options/requests"
-	getMyQuotesRequests      = "/options/my_requests"
-	createQuoteRequest       = "/options/requests"
-	deleteQuote              = "/options/requests/"
-	endpointQuote            = "/options/requests/%s/quotes"
-	getMyQuotes              = "/options/my_quotes"
-	deleteMyQuote            = "/options/quotes/"
-	acceptQuote              = "/options/quotes/%s/accept"
-	getOptionsInfo           = "/options/account_info"
-	getOptionsPositions      = "/options/positions"
-	getPublicOptionsTrades   = "/options/trades"
-	getOptionsFills          = "/options/fills"
-	requestOTCQuote          = "/otc/quotes"
-	getOTCQuoteStatus        = "/otc/quotes/"
-	acceptOTCQuote           = "/otc/quotes/%s/accept"
+	getSubaccounts            = "/subaccounts"
+	getSubaccountBalances     = "/subaccounts/%s/balances"
+	transferSubaccountBalance = "/subaccounts/transfer"
+	getAccountInfo            = "/account"
+	getPositions              = "/positions"
+	setLeverage               = "/account/leverage"
+	getCoins                  = "/wallet/coins"
+	getBalances               = "/wallet/balances"
+	getDepositAddress         = "/wallet/deposit_address/"
+	getDepositHistory         = "/wallet/deposits"
+	getWithdrawalHistory      = "/wallet/withdrawals"
+	withdrawRequest           = "/wallet/withdrawals"
+	getOpenOrders             = "/orders?"
+	getOrderHistory           = "/orders/history?"
+	getOpenTriggerOrders      = "/conditional_orders?"
+	getTriggerOrderTriggers   = "/conditional_orders/%s/triggers"
+	getTriggerOrderHistory    = "/conditional_orders/history?"
+	placeOrder                = "/orders"
+	placeTriggerOrder         = "/conditional_orders"
+	modifyOrder               = "/orders/%s/modify"
+	modifyOrderByClientID     = "/orders/by_client_id/%s/modify"
+	modifyTriggerOrder        = "/conditional_orders/%s/modify"
+	getOrderStatus            = "/orders/"
+	getOrderStatusByClientID  = "/orders/by_client_id/"
+	deleteOrder               = "/orders/"
+	deleteOrderByClientID     = "/orders/by_client_id/"
+	cancelTriggerOrder        = "/conditional_orders/"
+	getFills                  = "/fills?"
+	getFundingPayments        = "/funding_payments?"
+	getLeveragedTokens        = "/lt/tokens"
+	getTokenInfo              = "/lt/"
+	getLTBalances             = "/lt/balances"
+	getLTCreations            = "/lt/creations"
+	requestLTCreation         = "/lt/%s/create"
+	getLTRedemptions          = "/lt/redemptions"
+	requestLTRedemption       = "/lt/%s/redeem"
+	getListQuotes             = "/options/requests"
+	getMyQuotesRequests       = "/options/my_requests"
+	createQuoteRequest        = "/options/requests"
+	deleteQuote               = "/options/requests/"
+	endpointQuote             = "/options/requests/%s/quotes"
+	getMyQuotes               = "/options/my_quotes"
+	deleteMyQuote             = "/options/quotes/"
+	acceptQuote               = "/options/quotes/%s/accept"
+	getOptionsInfo            = "/options/account_info"
+	getOptionsPositions       = "/options/positions"
+	getPublicOptionsTrades    = "/options/trades"
+	getOptionsFills           = "/options/fills"
+	getHistricalOpenInterest  = "/options/historical_open_interest/BTC"
+	getHistricalVolumes       = "/options/historical_volumes/BTC"
+	getOpenInterest           = "/options/open_interest/BTC"
+	requestOTCQuote           = "/otc/quotes"
+	getOTCQuoteStatus         = "/otc/quotes/"
+	acceptOTCQuote            = "/otc/quotes/%s/accept"
 
 	// Other Consts
 	trailingStopOrderType = "trailingStop"
@@ -182,6 +190,26 @@ func (f *FTX) GetHistoricalData(marketName, timeInterval, limit string, startTim
 	return resp.Data, f.SendHTTPRequest(fmt.Sprintf(ftxAPIURL+getHistoricalData, marketName)+params.Encode(), &resp)
 }
 
+// GetIndexHistoricalData gets historical OHLCV data for a given index
+func (f *FTX) GetIndexHistoricalData(indexName, timeInterval, limit string, startTime, endTime time.Time) ([]OHLCVData, error) {
+	resp := struct {
+		Data []OHLCVData `json:"result"`
+	}{}
+	params := url.Values{}
+	params.Set("resolution", timeInterval)
+	if limit != "" {
+		params.Set("limit", limit)
+	}
+	if !startTime.IsZero() && !endTime.IsZero() {
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+		params.Set("start_time", strconv.FormatInt(startTime.Unix(), 10))
+		params.Set("end_time", strconv.FormatInt(endTime.Unix(), 10))
+	}
+	return resp.Data, f.SendHTTPRequest(fmt.Sprintf(ftxAPIURL+getIndexes, indexName)+params.Encode(), &resp)
+}
+
 // GetFutures gets data on futures
 func (f *FTX) GetFutures() ([]FuturesData, error) {
 	resp := struct {
@@ -207,12 +235,12 @@ func (f *FTX) GetFutureStats(futureName string) (FutureStatsData, error) {
 }
 
 // GetFundingRates gets data on funding rates
-func (f *FTX) GetFundingRates() ([]FundingRatesData, error) {
-	resp := struct {
-		Data []FundingRatesData `json:"result"`
-	}{}
-	return resp.Data, f.SendHTTPRequest(ftxAPIURL+getFundingRates, &resp)
-}
+// func (f *FTX) GetFundingRates() ([]FundingRatesData, error) {
+// 	resp := struct {
+// 		Data []FundingRatesData `json:"result"`
+// 	}{}
+// 	return resp.Data, f.SendHTTPRequest(ftxAPIURL+getFundingRates, &resp)
+// }
 
 // GetIndexWeights gets index weights
 func (f *FTX) GetIndexWeights(index string) (IndexWeights, error) {
@@ -230,6 +258,35 @@ func (f *FTX) SendHTTPRequest(path string, result interface{}) error {
 		HTTPDebugging: f.HTTPDebugging,
 		HTTPRecording: f.HTTPRecording,
 	})
+}
+
+// GetSubaccount gets subaccount info
+func (f *FTX) GetSubaccount() ([]SubAccountData, error) {
+	resp := struct {
+		Data []SubAccountData `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getSubaccounts, nil, &resp)
+}
+
+// GetSubaccountBalance gets subaccount balances
+func (f *FTX) GetSubaccountBalance(subaccountName string) ([]SubAccountBalanceData, error) {
+	resp := struct {
+		Data []SubAccountBalanceData `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, fmt.Sprintf(getSubaccountBalances, subaccountName), nil, &resp)
+}
+
+// TransferSubaccountBalance transfer balances between subaccounts
+func (f *FTX) TransferSubaccountBalance(coin, source, destination string, size float64) (TransferedBalanceData, error) {
+	req := make(map[string]interface{})
+	req["coin"] = coin
+	req["size"] = size
+	req["source"] = source
+	req["destination"] = destination
+	resp := struct {
+		Data TransferedBalanceData `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodPost, transferSubaccountBalance, req, &resp)
 }
 
 // GetAccountInfo gets account info
@@ -410,20 +467,20 @@ func (f *FTX) GetTriggerOrderHistory(marketName string, startTime, endTime time.
 }
 
 // Order places an order
-func (f *FTX) Order(marketName, side, orderType, reduceOnly, ioc, postOnly, clientID string, price, size float64) (OrderData, error) {
+func (f *FTX) Order(marketName, side, orderType, clientID string, reduceOnly, ioc, postOnly bool, price, size float64) (OrderData, error) {
 	req := make(map[string]interface{})
 	req["market"] = marketName
 	req["side"] = side
 	req["price"] = price
 	req["type"] = orderType
 	req["size"] = size
-	if reduceOnly != "" {
+	if reduceOnly == true {
 		req["reduceOnly"] = reduceOnly
 	}
-	if ioc != "" {
+	if ioc == true {
 		req["ioc"] = ioc
 	}
-	if postOnly != "" {
+	if postOnly == true {
 		req["postOnly"] = postOnly
 	}
 	if clientID != "" {
@@ -436,16 +493,16 @@ func (f *FTX) Order(marketName, side, orderType, reduceOnly, ioc, postOnly, clie
 }
 
 // TriggerOrder places an order
-func (f *FTX) TriggerOrder(marketName, side, orderType, reduceOnly, retryUntilFilled string, size, triggerPrice, orderPrice, trailValue float64) (TriggerOrderData, error) {
+func (f *FTX) TriggerOrder(marketName, side, orderType string, reduceOnly, retryUntilFilled bool, size, triggerPrice, orderPrice, trailValue float64) (TriggerOrderData, error) {
 	req := make(map[string]interface{})
 	req["market"] = marketName
 	req["side"] = side
 	req["type"] = orderType
 	req["size"] = size
-	if reduceOnly != "" {
+	if reduceOnly == true {
 		req["reduceOnly"] = reduceOnly
 	}
-	if retryUntilFilled != "" {
+	if retryUntilFilled == true {
 		req["retryUntilFilled"] = retryUntilFilled
 	}
 	if orderType == order.Stop.Lower() || orderType == "" {
@@ -536,7 +593,7 @@ func (f *FTX) DeleteOrder(orderID string) (string, error) {
 	resp := struct {
 		Data string `json:"result"`
 	}{}
-	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, deleteOrder+orderID, nil, &resp)
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodDelete, deleteOrder+orderID, nil, &resp)
 }
 
 // DeleteOrderByClientID deletes an order
@@ -544,7 +601,7 @@ func (f *FTX) DeleteOrderByClientID(clientID string) (string, error) {
 	resp := struct {
 		Data string `json:"result"`
 	}{}
-	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, deleteOrderByClientID+clientID, nil, &resp)
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodDelete, deleteOrderByClientID+clientID, nil, &resp)
 }
 
 // DeleteTriggerOrder deletes an order
@@ -799,6 +856,73 @@ func (f *FTX) GetOptionsFills(startTime, endTime time.Time, limit string) ([]Opt
 	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getOptionsFills, req, &resp)
 }
 
+// GetHistoricalOpenInterest gets historical OI data for options
+func (f *FTX) GetHistoricalOpenInterest(startTime, endTime time.Time, limit string) ([]OptionOpenInterest, error) {
+	resp := struct {
+		Data []OptionOpenInterest `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		req["start_time"] = strconv.FormatInt(startTime.Unix(), 10)
+		req["end_time"] = strconv.FormatInt(endTime.Unix(), 10)
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if limit != "" {
+		req["limit"] = limit
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getHistricalOpenInterest, req, &resp)
+}
+
+// GetHistoricalVolume gets historical contract volume for options
+func (f *FTX) GetHistoricalVolume(startTime, endTime time.Time, limit string) ([]OptionVolume, error) {
+	resp := struct {
+		Data []OptionVolume `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		req["start_time"] = strconv.FormatInt(startTime.Unix(), 10)
+		req["end_time"] = strconv.FormatInt(endTime.Unix(), 10)
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if limit != "" {
+		req["limit"] = limit
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getHistricalVolumes, req, &resp)
+}
+
+// GetOpenInterest gets open interest for options
+func (f *FTX) GetOpenInterest() (OpenInterest, error) {
+	resp := struct {
+		Data OpenInterest `json:"result"`
+	}{}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getOpenInterest, "", &resp)
+}
+
+// GetFundingRates gets data on funding rates
+func (f *FTX) GetFundingRates(startTime, endTime time.Time, marketName string) ([]FundingRatesData, error) {
+	resp := struct {
+		Data []FundingRatesData `json:"result"`
+	}{}
+	req := make(map[string]interface{})
+	if !startTime.IsZero() && !endTime.IsZero() {
+		start, _ := strconv.Atoi(strconv.FormatInt(startTime.Unix(), 10))
+		end, _ := strconv.Atoi(strconv.FormatInt(endTime.Unix(), 10))
+		req["start_time"] = start
+		req["end_time"] = end
+		if startTime.After(endTime) {
+			return resp.Data, errors.New("startTime cannot be after endTime")
+		}
+	}
+	if marketName != "" {
+		req["future"] = marketName
+	}
+	return resp.Data, f.SendAuthHTTPRequest(http.MethodGet, getFundingRates, req, &resp)
+}
+
 // SendAuthHTTPRequest sends an authenticated request
 func (f *FTX) SendAuthHTTPRequest(method, path string, data, result interface{}) error {
 	ts := strconv.FormatInt(time.Now().UnixNano()/1000000, 10)
@@ -822,6 +946,10 @@ func (f *FTX) SendAuthHTTPRequest(method, path string, data, result interface{})
 	headers["FTX-SIGN"] = crypto.HexEncodeToString(hmac)
 	headers["FTX-TS"] = ts
 	headers["Content-Type"] = "application/json"
+	// サブアカウントのとき
+	if f.SubAccount != "" {
+		headers["FTX-SUBACCOUNT"] = f.SubAccount
+	}
 	return f.SendPayload(context.Background(), &request.Item{
 		Method:        method,
 		Path:          ftxAPIURL + path,
